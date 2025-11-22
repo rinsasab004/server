@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from blogApp.serializers import UserSerializer
+from blogApp.serializers import UserSerializer,ProfileSerialixer
+from blogApp.models import ProfileModel
+from rest_framework import authentication,permissions
 
 # Create your views here.
 
@@ -17,4 +19,13 @@ class UserView(ModelViewSet):
             return Response(data=serializer.data)
         else:
             return Response(data=serializer.errors)
+        
+class ProfileView(ModelViewSet):
+    serializer_class=ProfileSerialixer
+    queryset=ProfileModel
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
         
