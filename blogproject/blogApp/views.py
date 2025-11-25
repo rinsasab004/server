@@ -78,4 +78,7 @@ class PostView(ModelViewSet):
         serializer=CommentSerializer(comments,many=True)
         return Response(data=serializer.data)
     
+class CommentView(ModelViewSet):
+    serializer_class=CommentSerializer
+    queryset=CommentModel.objects.all()
 
